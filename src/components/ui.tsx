@@ -148,10 +148,10 @@ export function Kpi({
   return (
     <Card className="relative overflow-hidden">
       <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} />
-      <p className="text-xs font-medium uppercase tracking-wide text-muted">
+      <p className="text-[10px] font-medium uppercase tracking-wide text-muted sm:text-xs">
         {label}
       </p>
-      <p className="mt-2 font-display text-3xl tracking-tight text-forest">
+      <p className="mt-2 break-words font-display text-xl leading-none tracking-tight text-forest sm:text-3xl">
         {value}
       </p>
       {hint ? <p className="mt-1 text-xs text-muted">{hint}</p> : null}

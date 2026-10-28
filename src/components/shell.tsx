@@ -82,7 +82,7 @@ export function AppShell({
 
   return (
     <div className="min-h-screen bg-paper">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col bg-forest md:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] bg-forest md:flex md:flex-col">
         <div className="border-b border-white/10 px-4 py-4">
           <Link href={`/${role}`}>
             <Wordmark light compact />
@@ -93,8 +93,8 @@ export function AppShell({
         </div>
         <div className="flex-1 overflow-y-auto">{navList}</div>
         <div className="border-t border-white/10 p-4 text-xs text-cream/70">
-          <p className="font-medium text-cream">{user.orgName}</p>
-          <p className="mt-1">{user.name}</p>
+          <p className="truncate font-medium text-cream">{user.orgName}</p>
+          <p className="mt-1 truncate">{user.name}</p>
         </div>
       </aside>
 
@@ -118,26 +118,26 @@ export function AppShell({
             </div>
             <div className="flex-1 overflow-y-auto">{navList}</div>
             <div className="border-t border-white/10 p-4">
-              <label className="block">
-                <span className="mb-2 block text-[11px] uppercase tracking-widest text-cream/50">
-                  Peran demo
-                </span>
-                <select
-                  value={role}
-                  onChange={(e) => {
-                    const next = e.target.value as Role;
-                    switchRole(next);
-                    router.push(`/${next}`);
-                  }}
-                  className="h-11 w-full rounded-xl bg-white/10 px-3 text-sm text-cream"
-                >
-                  {roles.map((r) => (
-                    <option key={r} value={r} className="text-ink">
-                      {roleLabel[r]}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <p className="mb-2 text-[11px] uppercase tracking-widest text-cream/50">
+                Peran demo
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {roles.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => {
+                      switchRole(r);
+                      router.push(`/${r}`);
+                    }}
+                    className={`min-h-10 rounded-xl px-2 text-xs font-semibold ${
+                      r === role ? "bg-leaf text-cream" : "bg-white/10 text-cream"
+                    }`}
+                  >
+                    {roleLabel[r]}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ export function AppShell({
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Cari batch, pesanan, atau komoditas"
+                placeholder="Cari batch atau pesanan"
                 className="h-11 w-full rounded-full border border-line bg-white pl-10 pr-4 text-sm outline-none ring-leaf/30 placeholder:text-muted focus:border-leaf focus:ring-2"
               />
             </form>
@@ -225,16 +225,17 @@ export function AppShell({
                 item.href === `/${role}`
                   ? pathname === item.href
                   : pathname.startsWith(item.href);
+              const short = item.label.split(" ")[0];
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex flex-col items-center gap-1 py-2 text-[11px] ${
+                  className={`flex min-w-0 flex-col items-center gap-1 overflow-hidden px-1 py-2 text-center text-[10px] leading-tight ${
                     active ? "text-leaf" : "text-muted"
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
-                  {item.label.split(" ")[0]}
+                  <Icon className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+                  <span className="w-full truncate">{short}</span>
                 </Link>
               );
             })}
